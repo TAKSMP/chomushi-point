@@ -7,6 +7,15 @@
 - バックエンド: Supabase（Auth ＋ Postgres ＋ 行単位アクセス制御 RLS）
 - 秘密情報はブラウザーに入れません。ブラウザーが使うのは公開用の URL と publishable（anon）キーだけで、家族ごとのデータ分離は DB の RLS で強制しています。
 
+## 現在の公開環境
+
+| 項目 | 値 |
+| --- | --- |
+| 公開URL | https://taksmp.github.io/chomushi-point/ |
+| GitHub | https://github.com/TAKSMP/chomushi-point （`main` に push すると GitHub Actions で自動デプロイ） |
+| Supabase | プロジェクト `chomushi-point`（TAKSMP's Org / Free / Tokyo）。URL・publishable キーは `.env.production` |
+| Auth Site URL | https://taksmp.github.io/chomushi-point/ |
+
 ---
 
 ## 1. 必要なもの
