@@ -1,0 +1,66 @@
+{
+  "title": "ちょうむしポイント アプリ作成キット",
+  "version": 1,
+  "assets": [
+    {
+      "path": "assets/backgrounds/forest-clearing-background.png",
+      "description": "縦長の森の背景、UIを含まない"
+    },
+    {
+      "path": "assets/ui/shared-ui-sprite-sheet.png",
+      "description": "共通UI部品：タイトル板、空の名前札、選択状態名札、ポイント札、黄色・赤ボタン、バッタと蝶"
+    },
+    {
+      "path": "assets/ui/point-token-add-yellow.png",
+      "description": "加算用の黄色い空ポイントボタン、数字はアプリ側で重ねる"
+    },
+    {
+      "path": "assets/ui/point-token-subtract-red.png",
+      "description": "減算用の赤い空ポイントボタン、数字はアプリ側で重ねる"
+    },
+    {
+      "path": "reference/screens/home-final.png",
+      "description": "ホーム画面完成見本"
+    },
+    {
+      "path": "reference/screens/points-sample.png",
+      "description": "みんなのポイントのサンプル画面"
+    },
+    {
+      "path": "reference/screens/points-template.png",
+      "description": "みんなのポイントの空欄実装見本、期間ラベルなし"
+    },
+    {
+      "path": "reference/screens/bug-search-sample-add-3-players.png",
+      "description": "むしさがし3人用サンプル、たすモード"
+    },
+    {
+      "path": "reference/screens/bug-search-sample-subtract-3-players.png",
+      "description": "むしさがし3人用サンプル、ひくモード"
+    },
+    {
+      "path": "reference/screens/bug-search-template-add-6-slots.png",
+      "description": "むしさがし6枠の実装見本、たすモード"
+    },
+    {
+      "path": "reference/screens/bug-search-template-subtract-6-slots.png",
+      "description": "むしさがし6枠の実装見本、ひくモード"
+    },
+    {
+      "path": "reference/sketches/home-layout.jpg",
+      "description": "ホーム画面の手描き下書き"
+    },
+    {
+      "path": "reference/sketches/points-layout.jpg",
+      "description": "ポイント一覧の手描き下書き"
+    },
+    {
+      "path": "reference/sketches/bug-search-layout.jpg",
+      "description": "むしさがしの手描き下書き"
+    },
+    {
+      "path": "reference/sketches/original-home-style-reference.jpg",
+      "description": "初期ホーム画面の雰囲気参考"
+    }
+  ]
+}
