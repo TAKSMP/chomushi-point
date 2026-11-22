@@ -112,3 +112,39 @@ export function niceMax(v: number): number {
 export function formatPoints(n: number): string {
   return n.toLocaleString('ja-JP');
 }
+
+// ---------- daily graph ----------
+export interface Day { key: string; year: number; month: number; date: number }
+
+export function dayOf(d: Date): Day {
+  const year = d.getFullYear(), month = d.getMonth() + 1, date = d.getDate();
+  return { key: `${year}-${String(month).padStart(2, '0')}-${String(date).padStart(2, '0')}`, year, month, date };
+}
+
+export const dayLabel = (d: Day) => `${d.month}/${d.date}`;
+
+/**
+ * Per-player daily series: for each day on which at least one game was completed
+ * (local time), the sum of that player's final points of games completed that day.
+ * No limit on how far back it goes.
+ */
+export function buildDailySeries(results: ResultRow[], playerIds: string[], now = new Date()) {
+  const byKey = new Map<string, Day>();
+  for (const r of results) { const d = dayOf(new Date(r.endedAt)); byKey.set(d.key, d); }
+  const days = [...byKey.values()].sort((a, b) => a.key.localeCompare(b.key));
+  if (days.length === 0) days.push(dayOf(now));
+  const index = new Map(days.map((d, i) => [d.key, i]));
+  const series: Record<string, number[]> = {};
+  for (const id of playerIds) series[id] = days.map(() => 0);
+  for (const r of results) {
+    const s = series[r.playerId];
+    const i = index.get(dayOf(new Date(r.endedAt)).key);
+    if (s && i !== undefined) s[i] += r.finalPoints;
+  }
+  return { days, series };
+}
+
+/** Shared vertical axis: 50 while small, then grows in steps of 50 (100, 150, …). */
+export function axisMax(maxValue: number, step = 50): number {
+  return Math.max(step, Math.ceil(maxValue / step) * step);
+}

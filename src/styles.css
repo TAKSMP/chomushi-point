@@ -397,7 +397,7 @@ code { background: #f1e2c2; padding: 1px 6px; border-radius: 6px; font-size: .9e
 /* ============================================================ POINTS (みんなのポイント) */
 .points .panel-paper { padding: 12px 8px; }
 .pt-table { display: flex; align-items: stretch; }
-.pt-fixed { flex: 0 0 auto; width: clamp(170px, 50%, 280px); }
+.pt-fixed { flex: 0 0 auto; width: clamp(150px, 42%, 280px); }
 .pt-graph { flex: 1 1 auto; min-width: 0; border-left: 2px solid var(--paper-line); }
 .pt-head-row { display: flex; gap: 4px; padding: 0 3px 4px; height: 44px; }
 .pt-head {
@@ -425,12 +425,20 @@ code { background: #f1e2c2; padding: 1px 6px; border-radius: 6px; font-size: .9e
 .period-head { position: relative; height: 30px; border-bottom: 1.5px solid var(--paper-line); }
 .period { position: absolute; bottom: 4px; transform: translateX(-50%); font-size: 11px; white-space: nowrap; line-height: 1.1; text-align: center; color: var(--ink-soft); }
 .period em { display: block; font-style: normal; font-size: 9px; color: #a07a4a; }
-.spark .grid-v { stroke: #eadbbd; stroke-width: 1; }
+.spark .grid-v { stroke: #efe3c8; stroke-width: 1; }
+.spark .grid-h { stroke: #e2cfa8; stroke-width: 1; stroke-dasharray: 3 4; }
+.pt-graph-body { display: flex; }
+.y-col { flex: none; width: 30px; }
+.y-head { height: 30px; border-bottom: 1.5px solid var(--paper-line); }
+.y-row { position: relative; }
+.y-axis { position: absolute; inset: 0; }
+.y-axis span { position: absolute; right: 3px; transform: translateY(-50%); font-size: 9px; color: #a07a4a; line-height: 1; }
+.pt-graph-body .pt-scroll { flex: 1; min-width: 0; }
 .spark .grid-base { stroke: #b59466; stroke-width: 1.5; }
-.spark .line { fill: none; stroke: #4c9e2a; stroke-width: 3; stroke-linejoin: round; stroke-linecap: round; }
-.spark .dot { fill: #fff; stroke: #3b8a1c; stroke-width: 2.5; }
-.spark .dot.zero { stroke: #9cc98a; }
-.spark .val { font-size: 11px; font-weight: 800; fill: var(--ink); text-anchor: middle; paint-order: stroke; stroke: var(--paper); stroke-width: 3px; }
+.spark .line { fill: none; stroke: #4c9e2a; stroke-width: 2.2; stroke-linejoin: round; stroke-linecap: round; }
+.spark .dot { fill: #3b8a1c; stroke: #fff; stroke-width: 1; }
+.spark .dot.zero { fill: #b9d9a8; stroke: none; }
+.spark .val { font-size: 10px; font-weight: 800; fill: var(--ink); text-anchor: middle; paint-order: stroke; stroke: var(--paper); stroke-width: 3px; }
 .scroll-hint { text-align: center; font-size: 13px; color: var(--ink-soft); margin: 10px 0 0; }
 
 /* ============================================================ SETTINGS */

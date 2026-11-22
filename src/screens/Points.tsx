@@ -1,12 +1,15 @@
 import { useEffect, useLayoutEffect, useMemo, useRef } from 'react';
 import { BackButton, Loading, PillButton, Screen, TitleBoard, TopBar, fit } from '../components/ui';
-import { buildSeries, formatPoints, niceMax, periodLabel, type Period } from '../lib/scoring';
+import { axisMax, buildDailySeries, dayLabel, formatPoints, type Day } from '../lib/scoring';
 import { navigate } from '../router';
 import { useApp } from '../store';
 
-const COL = 66;      // px per half-month
+const COL = 44;      // px per day
 const ROW_H = 76;    // px per player row (keep in sync with --row-h in CSS)
-const PAD_X = 36;
+const PAD_X = 22;
+const TOP = 16;      // room for value labels
+const BOTTOM = ROW_H - 10;
+const yOf = (v: number, max: number) => BOTTOM - (v / max) * (BOTTOM - TOP);
 
 function shortNum(n: number) {
   if (n >= 100000000) return `${Math.round(n / 100000000)}おく`;
@@ -14,36 +17,45 @@ function shortNum(n: number) {
   return String(n);
 }
 
-function Spark({ values }: { values: number[] }) {
+/** Fixed (non-scrolling) vertical axis shared by every row. */
+function YAxis({ max }: { max: number }) {
+  return (
+    <div className="y-axis" aria-hidden="true">
+      {[max, max / 2, 0].map((v) => (
+        <span key={v} style={{ top: yOf(v, max) }}>{shortNum(v)}</span>
+      ))}
+    </div>
+  );
+}
+
+function Spark({ values, max }: { values: number[]; max: number }) {
   const w = PAD_X * 2 + COL * (values.length - 1);
-  const top = 18, bottom = ROW_H - 12;
-  const max = niceMax(Math.max(...values));
   const x = (i: number) => PAD_X + i * COL;
-  const y = (v: number) => bottom - (v / max) * (bottom - top);
-  const d = values.map((v, i) => `${i ? 'L' : 'M'}${x(i)},${y(v)}`).join(' ');
+  const d = values.map((v, i) => `${i ? 'L' : 'M'}${x(i)},${yOf(v, max)}`).join(' ');
   return (
     <svg className="spark" width={w} height={ROW_H} viewBox={`0 0 ${w} ${ROW_H}`} aria-hidden="true">
-      {values.map((_, i) => <line key={i} x1={x(i)} x2={x(i)} y1={8} y2={bottom} className="grid-v" />)}
-      <line x1={4} x2={w - 4} y1={bottom} y2={bottom} className="grid-base" />
+      {[max, max / 2].map((v) => <line key={v} x1={0} x2={w} y1={yOf(v, max)} y2={yOf(v, max)} className="grid-h" />)}
+      {values.map((_, i) => <line key={i} x1={x(i)} x2={x(i)} y1={TOP - 4} y2={BOTTOM} className="grid-v" />)}
+      <line x1={0} x2={w} y1={BOTTOM} y2={BOTTOM} className="grid-base" />
       {values.length > 1 && <path d={d} className="line" />}
       {values.map((v, i) => (
         <g key={i}>
-          <circle cx={x(i)} cy={y(v)} r={v > 0 ? 5 : 3.5} className={v > 0 ? 'dot' : 'dot zero'} />
-          {v > 0 && <text x={x(i)} y={y(v) - 9} className="val">{shortNum(v)}</text>}
+          <circle cx={x(i)} cy={yOf(v, max)} r={v > 0 ? 3.2 : 2} className={v > 0 ? 'dot' : 'dot zero'} />
+          {v > 0 && <text x={x(i)} y={yOf(v, max) - 6} className="val">{shortNum(v)}</text>}
         </g>
       ))}
     </svg>
   );
 }
 
-function PeriodHeader({ periods }: { periods: Period[] }) {
-  const w = PAD_X * 2 + COL * (periods.length - 1);
+function DayHeader({ days }: { days: Day[] }) {
+  const w = PAD_X * 2 + COL * (days.length - 1);
   return (
     <div className="period-head" style={{ width: w }}>
-      {periods.map((p, i) => (
-        <span key={p.key} className="period" style={{ left: PAD_X + i * COL }}>
-          {(i === 0 || p.month === 1 && p.half === 1) && <em>{p.year}</em>}
-          {periodLabel(p)}
+      {days.map((d, i) => (
+        <span key={d.key} className="period" style={{ left: PAD_X + i * COL }}>
+          {(i === 0 || d.year !== days[i - 1].year) && <em>{d.year}</em>}
+          {dayLabel(d)}
         </span>
       ))}
     </div>
@@ -56,16 +68,18 @@ export function Points() {
 
   useEffect(() => { void refresh(); }, [refresh]);
 
-  const { periods, series } = useMemo(
-    () => buildSeries(stats.results, players.map((p) => p.id)),
+  const { days, series } = useMemo(
+    () => buildDailySeries(stats.results, players.map((p) => p.id)),
     [stats.results, players],
   );
+  // one shared scale for everyone: 0–50, then 0–100, 0–150, …
+  const max = useMemo(() => axisMax(Math.max(0, ...Object.values(series).flat())), [series]);
 
   // open on the latest half-month
   useLayoutEffect(() => {
     const el = scroller.current;
     if (el) el.scrollLeft = el.scrollWidth;
-  }, [periods.length, players.length]);
+  }, [days.length, players.length]);
 
   return (
     <Screen className="points">
@@ -96,16 +110,22 @@ export function Points() {
               </div>
               <div className="pt-graph">
                 <div className="pt-head-row"><span className="pt-head">グラフ</span></div>
-                <div className="pt-scroll" ref={scroller} tabIndex={0} aria-label="はんつきごとの ポイントの グラフ（よこに うごかせます）">
-                  <PeriodHeader periods={periods} />
-                  {players.map((p) => (
-                    <div key={p.id} className="pt-row graph-row"><Spark values={series[p.id] ?? []} /></div>
-                  ))}
+                <div className="pt-graph-body">
+                  <div className="y-col">
+                    <div className="y-head" />
+                    {players.map((p) => <div key={p.id} className="pt-row y-row"><YAxis max={max} /></div>)}
+                  </div>
+                  <div className="pt-scroll" ref={scroller} tabIndex={0} aria-label="ひごとの ポイントの グラフ（よこに うごかせます）">
+                    <DayHeader days={days} />
+                    {players.map((p) => (
+                      <div key={p.id} className="pt-row graph-row"><Spark values={series[p.id] ?? []} max={max} /></div>
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
           )}
-          {loaded && players.length > 0 && periods.length > 3 && <p className="scroll-hint">← よこに うごかすと まえの ポイントが みられるよ</p>}
+          {loaded && players.length > 0 && days.length > 3 && <p className="scroll-hint">← よこに うごかすと まえの ポイントが みられるよ</p>}
         </div>
       </section>
     </Screen>

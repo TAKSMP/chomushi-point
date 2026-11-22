@@ -69,3 +69,27 @@ describe('niceMax', () => {
     expect([0, 3, 10, 11, 260, 999, 1001].map(niceMax)).toEqual([10, 5, 10, 20, 500, 1000, 2000]);
   });
 });
+
+import { axisMax, buildDailySeries, dayLabel } from './scoring';
+
+describe('daily graph', () => {
+  const at = (m: number, d: number, h = 12) => new Date(2026, m - 1, d, h).toISOString();
+  const results = [
+    { playerId: 'p', sessionId: 's1', finalPoints: 30, endedAt: at(11, 20, 9) },
+    { playerId: 'p', sessionId: 's2', finalPoints: 25, endedAt: at(11, 20, 18) },
+    { playerId: 'm', sessionId: 's2', finalPoints: 7, endedAt: at(11, 20, 18) },
+    { playerId: 'm', sessionId: 's3', finalPoints: 120, endedAt: at(11, 22) },
+  ];
+  it('sums final points per day, only days that were played', () => {
+    const { days, series } = buildDailySeries(results, ['p', 'm']);
+    expect(days.map(dayLabel)).toEqual(['11/20', '11/22']);
+    expect(series.p).toEqual([55, 0]);
+    expect(series.m).toEqual([7, 120]);
+  });
+  it('no games → today', () => {
+    expect(buildDailySeries([], ['p'], new Date(2026, 10, 22)).days.map(dayLabel)).toEqual(['11/22']);
+  });
+  it('axis grows in steps of 50', () => {
+    expect([0, 12, 50, 51, 100, 101, 149, 151].map((v) => axisMax(v))).toEqual([50, 50, 50, 100, 100, 150, 150, 200]);
+  });
+});
