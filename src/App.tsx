@@ -2,7 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import { Loading, Screen } from './components/ui';
 import { createRepo } from './lib/config';
 import type { AuthUser } from './lib/repo';
-import { useRoute } from './router';
+import { setBgm } from './lib/sound';
+import { useRoute, type Route } from './router';
 import { Game } from './screens/Game';
 import { Home } from './screens/Home';
 import { Login, SetupNeeded } from './screens/Login';
@@ -15,6 +16,12 @@ import { AppProvider } from './store';
 export default function App() {
   const repo = useMemo(() => createRepo(), []);
   const [user, setUser] = useState<AuthUser | null | undefined>(undefined);
+  const route = useRoute();
+
+  // BGM: main everywhere, none while playing むしさがし, clear on the result screen
+  useEffect(() => {
+    setBgm(user && route.name === 'game' ? null : user && route.name === 'result' ? 'clear' : 'main');
+  }, [user, route.name]);
 
   useEffect(() => {
     if (!repo) return;
@@ -29,13 +36,12 @@ export default function App() {
   if (!user) return <Login repo={repo} />;
   return (
     <AppProvider key={user.id} repo={repo}>
-      <Router />
+      <Router route={route} />
     </AppProvider>
   );
 }
 
-function Router() {
-  const route = useRoute();
+function Router({ route }: { route: Route }) {
   switch (route.name) {
     case 'points': return <Points />;
     case 'setup': return <Setup />;

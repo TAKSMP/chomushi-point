@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Dialog, GearIcon, PillButton, Screen, TitleBoard, TopBar, img } from '../components/ui';
+import { Dialog, GearIcon, PillButton, Screen, SoundToggle, TitleBoard, TopBar, img } from '../components/ui';
 import { activeCache, reconcileActive } from '../lib/gameStore';
 import type { ActiveGame } from '../lib/repo';
 import { navigate } from '../router';
@@ -28,7 +28,7 @@ export function Home() {
 
   return (
     <Screen className="home">
-      <TopBar right={
+      <TopBar left={<SoundToggle />} right={
         <button type="button" className="round-wood" aria-label="せってい（なまえの かんり）" onClick={() => navigate({ name: 'settings' })}>
           <GearIcon />
         </button>
@@ -39,7 +39,7 @@ export function Home() {
       {syncError && <p className="sync-banner" role="alert">⚠ {syncError}</p>}
 
       <nav className="home-menu">
-        <button type="button" className="menu-card" onClick={() => navigate({ name: 'points' })}>
+        <button type="button" className="menu-card" data-se="a" onClick={() => navigate({ name: 'points' })}>
           <span className="menu-icon coins" aria-hidden="true">
             <span className="coin c-blue"><img src={img('butterfly')} alt="" /></span>
             <span className="coin c-yellow"><img src={img('butterfly')} alt="" /></span>
@@ -47,7 +47,7 @@ export function Home() {
           </span>
           <span className="menu-label">みんなの<br />ポイント</span>
         </button>
-        <button type="button" className="menu-card" onClick={() => navigate({ name: 'setup' })}>
+        <button type="button" className="menu-card" data-se="a" onClick={() => navigate({ name: 'setup' })}>
           <span className="menu-icon search" aria-hidden="true">
             <svg className="magnifier" viewBox="0 0 64 64"><circle cx="26" cy="26" r="17" fill="#bfe6ff" stroke="#c9ced6" strokeWidth="6" /><circle cx="21" cy="20" r="5" fill="#fff" opacity=".8" /><path d="M39 39l15 15" stroke="#a0622b" strokeWidth="9" strokeLinecap="round" /></svg>
             <img className="search-bug" src={img('grasshopper')} alt="" />

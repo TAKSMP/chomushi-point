@@ -1,5 +1,5 @@
 import { useEffect, useState, type FormEvent } from 'react';
-import { BackButton, Dialog, Panel, PillButton, Screen, TitleBoard, TopBar } from '../components/ui';
+import { BackButton, Dialog, Panel, PillButton, Screen, SoundToggle, TitleBoard, TopBar } from '../components/ui';
 import { activeCache } from '../lib/gameStore';
 import { friendlyError, type AuthUser, type Player } from '../lib/repo';
 import { formatPoints } from '../lib/scoring';
@@ -87,6 +87,10 @@ export function Settings() {
           <PillButton type="submit" color="yellow" disabled={busy || !newName.trim()}>ついか</PillButton>
         </form>
         <p className="hint">なまえは この かぞくの すべての スマホ・タブレットで おなじに なります。</p>
+      </Panel>
+
+      <Panel className="sound-panel">
+        <div className="sound-row"><h2 className="section-title">おと（BGM・こうかおん）</h2><SoundToggle /></div>
       </Panel>
 
       <Panel className="account-panel">

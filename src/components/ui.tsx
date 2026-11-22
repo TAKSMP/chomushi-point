@@ -1,4 +1,5 @@
-import { useEffect, useRef, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
+import { isMuted, onMutedChange, setMuted, unlock } from '../lib/sound';
 import { navigate, type Route } from '../router';
 
 /** CSS var used to shrink long names so they fit without ellipsis. */
@@ -13,7 +14,7 @@ export function Screen({ children, className = '' }: { children: ReactNode; clas
 export function TitleBoard({ children, small }: { children: ReactNode; small?: boolean }) {
   return (
     <header className={`title-board ${small ? 'small' : ''}`}>
-      <h1 className="title-text">{children}</h1>
+      <h1 className="title-text" style={typeof children === 'string' ? fit(children) : undefined}>{children}</h1>
     </header>
   );
 }
@@ -59,6 +60,23 @@ export function Dialog({ open, title, children, actions, onClose }:
         </div>
       )}
     </dialog>
+  );
+}
+
+export function SoundToggle() {
+  const [muted, setM] = useState(isMuted());
+  useEffect(() => onMutedChange(setM), []);
+  return (
+    <button type="button" className="round-wood sound-toggle" aria-pressed={!muted}
+      aria-label={muted ? 'おとを だす' : 'おとを けす'}
+      onClick={() => { unlock(); setMuted(!muted); }}>
+      <svg viewBox="0 0 48 48" aria-hidden="true">
+        <path d="M8 18h8l11-9v30l-11-9H8z" fill="#fff8e6" />
+        {muted
+          ? <path d="M33 18l10 12M43 18 33 30" stroke="#ffb3a8" strokeWidth="5" strokeLinecap="round" />
+          : <path d="M33 16c4 4 4 12 0 16M38 11c7 7 7 19 0 26" fill="none" stroke="#fff8e6" strokeWidth="4.5" strokeLinecap="round" />}
+      </svg>
+    </button>
   );
 }
 

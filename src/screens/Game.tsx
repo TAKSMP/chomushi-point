@@ -125,6 +125,7 @@ export function Game() {
           <div className="token-grid">
             {POINT_VALUES.map((v) => (
               <button key={v} type="button" className={`token ${mode}`} data-digits={String(v).length}
+                data-se={selected.size === 0 ? 'b' : mode === 'add' ? 'c' : 'd'}
                 aria-label={`${v}ポイント ${mode === 'add' ? 'たす' : 'ひく'}`} onClick={() => press(v)}>
                 <span>{v}</span>
               </button>

@@ -29,7 +29,7 @@ export default defineConfig({
         ],
       },
       workbox: {
-        globPatterns: ['**/*.{js,css,html,webp,png,svg}'],
+        globPatterns: ['**/*.{js,css,html,webp,png,svg,mp3}'],
         navigateFallback: 'index.html',
         runtimeCaching: [
           { // Japanese font subsets: cache on first use instead of precaching all of them

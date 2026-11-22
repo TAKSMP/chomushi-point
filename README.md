@@ -126,7 +126,22 @@ npm test                                          # 集計・順位・半月区�
 - 素材を差し替えたら `npm run assets` で再生成します（`scripts/build-assets.mjs` に共通素材シートの切り出し座標があります）。
 - 画面見本の文字や数値は画像から使わず、すべて HTML/CSS で描いています。
 
-## 9. ファイル構成
+## 9. BGM・効果音
+
+| ファイル（public/audio/） | 元ファイル | 鳴る場面 |
+| --- | --- | --- |
+| bgm-main.mp3 | choumushipoint_mainBGM | 起動後ずっと（むしさがしのゲーム中は止める）。ループ |
+| bgm-clear.mp3 | choumushipoint_clearBGM | 結果発表の画面。ループ |
+| se-a.mp3 | choumushipoint_SE_A | ホームの「みんなのポイント」「むしさがし」 |
+| se-c.mp3 | choumushipoint_SE_C | ゲーム中にポイントを たす |
+| se-d.mp3 | choumushipoint_SE_D | ゲーム中にポイントを ひく |
+| se-b.mp3 | choumushipoint_SE_B | そのほかのボタン |
+
+- 効果音は先頭・末尾の無音とアートワークを取り除いて軽くしています（`src/lib/sound.ts` で再生）。ボタンに `data-se="a|c|d|none"` を付けると鳴る音を変えられます。
+- ブラウザーの決まりで、音は最初に画面をタップした瞬間から鳴り始めます。ホーム左上と「せってい」で音のオン／オフを切り替えられます（端末ごとに保存）。
+- iPhone はマナーモード（消音スイッチ）中は音が出ません。
+
+## 10. ファイル構成
 
 ```
 src/
