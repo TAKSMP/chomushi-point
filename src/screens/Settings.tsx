@@ -68,7 +68,7 @@ export function Settings() {
                   <input autoFocus value={editing.name} maxLength={MAX_NAME} aria-label={`${p.displayName} の あたらしい なまえ`}
                     onChange={(e) => setEditing({ id: p.id, name: e.target.value })} />
                   <PillButton type="submit" color="yellow" disabled={busy || !editing.name.trim()}>OK</PillButton>
-                  <PillButton color="plank" onClick={() => setEditing(null)}>やめる</PillButton>
+                  <PillButton color="plank" data-se="b" onClick={() => setEditing(null)}>やめる</PillButton>
                 </form>
               ) : (
                 <>
@@ -101,7 +101,7 @@ export function Settings() {
 
       <Dialog open={!!deleting} title={`「${deleting?.displayName ?? ''}」を けしますか？`} onClose={() => setDeleting(null)}
         actions={<>
-          <PillButton color="plank" onClick={() => setDeleting(null)}>けさない</PillButton>
+          <PillButton color="plank" data-se="b" onClick={() => setDeleting(null)}>けさない</PillButton>
           <PillButton color="red" onClick={doDelete}>けす</PillButton>
         </>}>
         {deleting && (
@@ -119,7 +119,7 @@ export function Settings() {
 
       <Dialog open={confirmLogout} title="ログアウトしますか？" onClose={() => setConfirmLogout(false)}
         actions={<>
-          <PillButton color="plank" onClick={() => setConfirmLogout(false)}>もどる</PillButton>
+          <PillButton color="plank" data-se="b" onClick={() => setConfirmLogout(false)}>もどる</PillButton>
           <PillButton color="red" onClick={() => { setConfirmLogout(false); void repo.signOut(); }}>ログアウト</PillButton>
         </>}>
         データは クラウドに のこります。また おなじ アカウントで ログインすれば みられます。

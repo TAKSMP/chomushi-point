@@ -135,9 +135,10 @@ npm test                                          # 集計・順位・半月区�
 | se-a.mp3 | choumushipoint_SE_A | ホームの「みんなのポイント」「むしさがし」 |
 | se-c.mp3 | choumushipoint_SE_C | ゲーム中にポイントを たす |
 | se-d.mp3 | choumushipoint_SE_D | ゲーム中にポイントを ひく |
-| se-b.mp3 | choumushipoint_SE_B | そのほかのボタン |
+| se-b.mp3 | choumushipoint_SE_B | もどる系のボタン（左上の戻る、「ホームへ もどる」、確認画面の「もどる／まだ つづける／けさない／やめる」） |
+| se-f.mp3 | choumushipoint_SE_F | そのほかのボタン |
 
-- 効果音は先頭・末尾の無音とアートワークを取り除いて軽くしています（`src/lib/sound.ts` で再生）。ボタンに `data-se="a|c|d|none"` を付けると鳴る音を変えられます。
+- 効果音は先頭・末尾の無音とアートワークを取り除いて軽くしています（`src/lib/sound.ts` で再生）。ボタンに `data-se="a|b|c|d|none"` を付けると鳴る音を変えられます。
 - ブラウザーの決まりで、音は最初に画面をタップした瞬間から鳴り始めます。ホーム左上と「せってい」で音のオン／オフを切り替えられます（端末ごとに保存）。
 - iPhone はマナーモード（消音スイッチ）中は音が出ません。
 

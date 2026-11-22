@@ -21,7 +21,7 @@ export function TitleBoard({ children, small }: { children: ReactNode; small?: b
 
 export function BackButton({ to = { name: 'home' }, label = 'もどる', onClick }: { to?: Route; label?: string; onClick?: () => void }) {
   return (
-    <button type="button" className="round-wood back-btn" aria-label={label}
+    <button type="button" className="round-wood back-btn" data-se="b" aria-label={label}
       onClick={onClick ?? (() => navigate(to))}>
       <svg viewBox="0 0 48 48" aria-hidden="true"><path d="M27 12 13 24l14 12M14 24h22" fill="none" stroke="#fff8e6" strokeWidth="7" strokeLinecap="round" strokeLinejoin="round" /></svg>
     </button>

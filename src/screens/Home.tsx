@@ -71,7 +71,7 @@ export function Home() {
 
       <Dialog open={confirmDiscard} title="とちゅうの ゲームを やめますか？" onClose={() => setConfirmDiscard(false)}
         actions={<>
-          <PillButton color="plank" onClick={() => setConfirmDiscard(false)}>もどる</PillButton>
+          <PillButton color="plank" data-se="b" onClick={() => setConfirmDiscard(false)}>もどる</PillButton>
           <PillButton color="red" onClick={discard}>やめる</PillButton>
         </>}>
         このゲームの ポイントは ごうけいに たされず、きえます。

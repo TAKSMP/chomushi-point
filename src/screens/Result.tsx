@@ -42,7 +42,7 @@ export function Result({ sessionId }: { sessionId: string }) {
       <Screen className="result">
         <TitleBoard>こんかいの けっか</TitleBoard>
         <section className="panel"><div className="panel-paper"><p className="empty">けっかが みつかりませんでした。</p>
-          <PillButton className="wide" onClick={() => navigate({ name: 'home' }, { replace: true })}>ホームへ</PillButton></div></section>
+          <PillButton className="wide" data-se="b" onClick={() => navigate({ name: 'home' }, { replace: true })}>ホームへ</PillButton></div></section>
       </Screen>
     );
   }
@@ -70,7 +70,7 @@ export function Result({ sessionId }: { sessionId: string }) {
           </ol>
           {saving && <p className="sync-note">☁ クラウドに ほぞんちゅう…（つながったら じどうで ほぞんします）</p>}
           <div className="result-bugs" aria-hidden="true"><img src={img('grasshopper')} alt="" /><img src={img('butterfly')} alt="" /></div>
-          <PillButton color="yellow" className="wide" onClick={() => navigate({ name: 'home' }, { replace: true })}>ホームへ もどる</PillButton>
+          <PillButton color="yellow" className="wide" data-se="b" onClick={() => navigate({ name: 'home' }, { replace: true })}>ホームへ もどる</PillButton>
           <PillButton color="plank" className="wide" onClick={() => navigate({ name: 'points' })}>みんなの ポイントを みる</PillButton>
         </div>
       </section>

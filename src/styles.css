@@ -53,7 +53,7 @@ img { -webkit-user-drag: none; user-select: none; }
   aspect-ratio: 1224 / 265;
   background: url('/img/title-board.webp') center / 100% 100% no-repeat;
   display: grid; place-items: center;
-  padding: 0 12% 1.5%;
+  padding: 0 0 1.5%;
   container-type: inline-size;
   filter: drop-shadow(0 6px 6px rgba(40, 20, 0, .35));
 }
@@ -62,7 +62,8 @@ img { -webkit-user-drag: none; user-select: none; }
   margin: 0; line-height: 1; white-space: nowrap; letter-spacing: .02em;
   font-weight: 800;
   /* fit inside the wooden plank: ~66% of the board width shared by all characters */
-  font-size: min(50px, calc(72cqi / var(--len, 5)));
+  /* as large as possible inside the wooden plank (≈14%–86% of the board width) */
+  font-size: min(11cqi, calc(75cqi / var(--len, 5)));
   color: var(--yellow);
   background: linear-gradient(#fff27a, #ffc928 55%, #f5a915);
   -webkit-background-clip: text; background-clip: text;
@@ -71,7 +72,7 @@ img { -webkit-user-drag: none; user-select: none; }
           drop-shadow(0 2px 0 #5a2c0c) drop-shadow(0 -2px 0 #5a2c0c) drop-shadow(0 3px 0 #3d1c06)
           drop-shadow(0 0 2px #fff3c9);
 }
-.title-board.small .title-text { font-size: min(40px, calc(72cqi / var(--len, 5))); }
+
 
 /* ---------- top bar & round wooden buttons ---------- */
 .top-bar { display: flex; justify-content: space-between; align-items: center; min-height: 58px; margin-bottom: -18px; position: relative; z-index: 2; }

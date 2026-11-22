@@ -2,15 +2,16 @@
 // Browsers only allow sound after the first tap, so everything is unlocked on the first pointer event.
 
 export type Bgm = 'main' | 'clear' | null;
-export type Se = 'a' | 'b' | 'c' | 'd';
+export type Se = 'a' | 'b' | 'c' | 'd' | 'f';
 
 const FILES: Record<string, string> = {
   'bgm-main': 'audio/bgm-main.mp3',     // choumushipoint_mainBGM
   'bgm-clear': 'audio/bgm-clear.mp3',   // choumushipoint_clearBGM
   'se-a': 'audio/se-a.mp3',             // choumushipoint_SE_A: ホームの「みんなのポイント」「むしさがし」
-  'se-b': 'audio/se-b.mp3',             // choumushipoint_SE_B: そのほかのボタン
+  'se-b': 'audio/se-b.mp3',             // choumushipoint_SE_B: もどる系のボタン（data-se="b"）
   'se-c': 'audio/se-c.mp3',             // choumushipoint_SE_C: むしさがし中に ポイントを たす
   'se-d': 'audio/se-d.mp3',             // choumushipoint_SE_D: むしさがし中に ポイントを ひく
+  'se-f': 'audio/se-f.mp3',             // choumushipoint_SE_F: そのほかのボタン（ふだんの音）
 };
 
 const BGM_VOLUME = 0.45;
@@ -143,7 +144,7 @@ export function onMutedChange(f: (m: boolean) => void) { listeners.add(f); retur
 /**
  * Installs global listeners:
  *  - first tap unlocks audio (and starts the BGM)
- *  - every <button> click plays an SE: data-se="a|c|d|none" overrides the default "b"
+ *  - every <button> click plays an SE: data-se="a|b|c|d|none" overrides the default "f"
  *  - sound pauses while the app is in the background
  */
 export function installSound() {
@@ -156,7 +157,7 @@ export function installSound() {
     const se = btn.getAttribute('data-se');
     if (se === 'none') return;
     unlock();
-    playSe((se === 'a' || se === 'c' || se === 'd') ? se : 'b');
+    playSe((se === 'a' || se === 'b' || se === 'c' || se === 'd') ? se : 'f');
   }, { capture: true });
   document.addEventListener('visibilitychange', () => {
     if (!ctx) return;
